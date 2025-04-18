@@ -67,14 +67,18 @@ if canvas_result.image_data is not None:
         if model_choice == "character model":
             modelsel = keras.models.load_model("E:\\3rd sem proj\\fds ko project\\archive\models\\alpha_model_no_pca.h5")
             char = modelsel.predict(img_array.reshape(1, 1024))
-            st.write(nepali_dict[np.argmax(char)])
+            st.write("Predicted characters are:")
+            for i in np.argsort(char[0])[-5:][::-1]:
+                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
 
 
 
         elif model_choice == "Neural Network":
             modelsel = keras.models.load_model("E:\\3rd sem proj\\fds ko project\\archive\models\digits_model_no_pca.h5")
             char = modelsel.predict(img_array.reshape(1, 1024))
-            st.write("Predicted digit:", np.argmax(char))
+            st.write("Predicted characters are:")
+            for i in np.argsort(char[0])[-5:][::-1]:
+                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
 
 
         elif model_choice == "KNN":
@@ -85,7 +89,9 @@ if canvas_result.image_data is not None:
             img_array = img_array.reshape(1, -1)
             img_array_pca = pca.transform(img_array)
             char = knn.predict(img_array_pca)
-            st.write("Prediction result:", char[0])
+            st.write("Predicted characters are:")
+            for i in np.argsort(char[0])[-5:][::-1]:
+                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
             
 
         elif model_choice == "Logistic regression":
@@ -97,7 +103,9 @@ if canvas_result.image_data is not None:
             img_array = img_array.reshape(1, -1)
             img_array_pca = pca.transform(img_array)
             char = logistic.predict(img_array_pca)
-            st.write("Prediction result:", char[0])
+            st.write("Predicted characters are:")
+            for i in np.argsort(char[0])[-5:][::-1]:
+                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
             
 
 html_file_path = "E:\\3rd sem proj\\fds ko project\\archive\\models\\test.html"
