@@ -7,7 +7,6 @@ from tensorflow import keras
 import tensorflow as tf
 import pickle
 import os
-from sklearn.decomposition import PCA
 
 st.title("Devanagari Character Recognition")
 
@@ -121,15 +120,5 @@ if canvas_result.image_data is not None:
                 st.write(digit_dict[i], "%.3f" % (char[0][i] * 100), "%")
             
 
-html_file_path = "E:\\3rd sem proj\\fds ko project\\archive\\models\\test.html"
-if os.path.exists(html_file_path):
-    st.markdown(
-        f'<a href="{html_file_path}" target="_blank">'
-        f'<button style="background-color:blue;color:white;padding:10px;border:none;border-radius:5px;">'
-        f'Open Test Page</button></a>',
-        unsafe_allow_html=True,
-    )
-else:
-    st.error("HTML file not found!")       
 
 
