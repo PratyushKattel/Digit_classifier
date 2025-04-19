@@ -30,6 +30,19 @@ nepali_dict={
     30: 'ष', 31: 'स', 32: 'ह', 33: 'क्ष', 34: 'त्र', 35: 'ज्ञ'
 }
 
+digit_dict={
+    0:'०',
+    1:'१',
+    2:'२',
+    3:'३',
+    4:'४',
+    5:'५',
+    6:'६',
+    7:'७',
+    8:'८',
+    9:'९'
+}
+
 st.subheader("Draw a Devanagari Character")
 st.write("Reminder!!!")
 st.write("Please draw in the center of the canvas below and also make sure to draw your character/number straight.")
@@ -78,7 +91,7 @@ if canvas_result.image_data is not None:
             char = modelsel.predict(img_array.reshape(1, 1024))
             st.write("Predicted characters are:")
             for i in np.argsort(char[0])[-5:][::-1]:
-                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
+                st.write(digit_dict[i], "%.3f" % (char[0][i] * 100), "%")
 
 
         elif model_choice == "KNN":
@@ -89,23 +102,23 @@ if canvas_result.image_data is not None:
             img_array = img_array.reshape(1, -1)
             img_array_pca = pca.transform(img_array)
             char = knn.predict(img_array_pca)
-            st.write("Predicted characters are:")
-            for i in np.argsort(char[0])[-5:][::-1]:
-                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
+            st.write("Predicted character is:", digit_dict[char[0]])
+            
             
 
-        elif model_choice == "Logistic regression":
-            with open("E:\\3rd sem proj\\fds ko project\\archive\models\logistic_regression.pkl", "rb") as f:
+        elif model_choice == "Logistic":
+            with open("E:\\3rd sem proj\\fds ko project\\archive\\models\\logistic_regression.pkl", "rb") as f:
                 logistic = pickle.load(f)
-            with open("E:\\3rd sem proj\\fds ko project\\archive\models\pca_250.pkl", "rb") as f:
+            with open("E:\\3rd sem proj\\fds ko project\\archive\models\\pca_250.pkl", "rb") as f:
                 pca = pickle.load(f)
                 
             img_array = img_array.reshape(1, -1)
             img_array_pca = pca.transform(img_array)
-            char = logistic.predict(img_array_pca)
+            char = logistic.predict_proba(img_array_pca)
             st.write("Predicted characters are:")
+            print(char)
             for i in np.argsort(char[0])[-5:][::-1]:
-                st.write(nepali_dict[i], "%.3f" % (char[0][i] * 100), "%")
+                st.write(digit_dict[i], "%.3f" % (char[0][i] * 100), "%")
             
 
 html_file_path = "E:\\3rd sem proj\\fds ko project\\archive\\models\\test.html"
